@@ -4,3 +4,6 @@ major_version = 17
 [auth]
 site_url = "https://mhqmanagement.vercel.app"
 additional_redirect_urls = ["http://localhost:5173"]
+
+# Application access is provisioned by the store owner; public signups are disabled.
+enable_signup = false

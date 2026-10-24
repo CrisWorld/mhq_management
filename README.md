@@ -6,14 +6,13 @@
 
 ## Chức năng
 
-- Đăng nhập/đăng ký bằng email và mật khẩu qua Supabase Auth. Mỗi tài khoản có cửa hàng riêng.
+- Chỉ đăng nhập bằng tài khoản được cấp sẵn qua Supabase Auth. Đăng ký công khai bị tắt.
 - Dashboard chọn tháng, biểu đồ doanh thu và thực thu theo năm; danh sách khách chưa trả góp.
 - Tìm khách theo tên không dấu, điện thoại hoặc địa chỉ; tạo/sửa khách; gọi bằng liên kết điện thoại.
 - Tạo đơn từ khách, chọn sản phẩm/số lượng, thêm nhanh sản phẩm, ghi nhận trả trước, ngày mua và ghi chú.
 - Thu trả góp, xem phân bổ lãi/gốc và lịch sử công nợ.
 - Nhiều ghi chú cho mỗi khách, kèm thời gian Việt Nam.
 - Danh mục sản phẩm, cài đặt mức lãi, tải bản sao dữ liệu JSON.
-- Bản trải nghiệm tại `/?demo=1`: dữ liệu minh họa lưu trong phiên trình duyệt, không ghi vào database thật.
 
 ## Quy tắc công nợ
 
@@ -26,6 +25,42 @@
 7. Không ghi thu trong tương lai, trước ngày mua hoặc trước lần thu gần nhất. Không thu quá số nợ tại ngày nhận tiền. Lưu đơn và trả trước trong một transaction; RPC khóa đơn khi thu; request UUID ngăn tạo giao dịch trùng khi retry.
 8. Khách chưa trả góp trong tháng: có ít nhất một đơn mua trước tháng đó, còn dư nợ tại ngày báo cáo, chưa có lần thu trả góp trên đơn đó trong tháng. Khách có nhiều đơn phải có khoản thu ở từng đơn đang nợ; trả trước không tính là trả góp. Chưa có lịch hẹn hoặc mức trả góp bắt buộc.
 9. Doanh thu là tổng giá trị đơn theo ngày mua; thực thu là tiền nhận theo ngày nhận, gồm trả trước và trả góp. Báo cáo quá khứ chốt cuối tháng, tháng hiện tại chốt hôm nay, múi giờ `Asia/Ho_Chi_Minh`.
+
+## Cấu trúc dự án
+
+```text
+src/
+  app/
+    App.tsx, AppRoutes.tsx   # Khởi tạo ứng dụng và định tuyến
+    providers/              # AuthProvider, StoreProvider, UiProvider
+    layout/                 # Header, điều hướng, khung ứng dụng
+    overlays/               # Hộp thoại theo chức năng và quản lý focus
+  features/
+    auth/                   # Chỉ đăng nhập
+    dashboard/              # Trang báo cáo, biểu đồ doanh thu
+    customers/              # Danh sách, chi tiết, biểu mẫu, ghi chú
+    orders/                 # Chi tiết đơn, tạo đơn, chọn sản phẩm, thu tiền
+    products/               # Danh mục và biểu mẫu sản phẩm
+    settings/               # Chính sách lãi, xuất dữ liệu, đăng xuất
+  shared/ui/                # Component giao diện dùng chung
+  lib/                      # Supabase client, HTTP client, định dạng, lỗi
+  styles/                   # CSS tách theo chức năng
+server/
+  app.ts                    # Khởi tạo NestJS/Express cho local và Vercel
+  app.module.ts             # Ghép các module nghiệp vụ
+  modules/                  # auth, health, customers, products, orders,
+                            # payments, settings, state
+    <feature>/              # Module, controller, service, DTO của chức năng
+  common/                   # Database helpers, validation decorator
+  config/                   # Đọc cấu hình máy chủ
+shared/                     # Kiểu dữ liệu và thuật toán công nợ
+api/                        # Entrypoint serverless Vercel
+supabase/migrations/        # Schema, RLS và RPC giao dịch
+```
+
+Controller chỉ nhận request và chuyển đến service. Service gọi Supabase bằng JWT của người dùng, tiếp tục áp dụng RLS. Frontend tách trạng thái phiên đăng nhập, dữ liệu và giao diện; các trang và biểu mẫu nằm trong feature tương ứng. Chính sách tính lãi giữ ở `shared/finance.ts` và được đối chiếu với SQL trong kiểm thử database.
+
+`npm run format` định dạng mã; `npm run format:check` kiểm tra định dạng. TypeScript bật `strict`, kiểm tra biến và tham số không dùng.
 
 ## Phát triển
 
@@ -65,7 +100,7 @@ Import repo, dùng preset Vite, root `./`, build `npm run build`, output `dist`,
 - `SUPABASE_URL` (cùng URL trên)
 - `SUPABASE_PUBLISHABLE_KEY` (cùng publishable key trên)
 
-Supabase → Authentication → URL Configuration: Site URL và redirect URL trỏ tới domain Vercel. Bật email provider và xác nhận email. Người dùng tự tạo tài khoản trong ứng dụng, mở email xác nhận rồi đăng nhập. Không có tài khoản/mật khẩu quản trị mặc định.
+Supabase → Authentication: bật email provider, tắt **Allow new users to sign up**. Tài khoản cửa hàng được cấp sẵn trong Supabase Auth. Site URL và redirect URL trỏ tới domain Vercel. Ứng dụng chỉ có màn hình đăng nhập; không có đăng ký hoặc dữ liệu trải nghiệm. Không lưu email/mật khẩu đăng nhập trong mã nguồn hay biến môi trường frontend.
 
 ## Phạm vi phiên bản đầu
 

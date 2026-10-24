@@ -1,0 +1,70 @@
+.settings-card {
+  margin-top: 0;
+}
+.settings-card h2 {
+  margin-bottom: 23px;
+}
+.settings-card .primary {
+  margin-top: 5px;
+}
+.rate-example {
+  background: #f5f7ef;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 18px 0;
+  font-size: 10px;
+}
+.rate-example > span {
+  font-size: 9px;
+  color: #9ba68c;
+}
+.rate-example > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 13px;
+}
+.rate-example > div > span {
+  color: #8a9a79;
+}
+.rate-example strong {
+  font-size: 10px;
+}
+.policy-card li {
+  font-size: 10px;
+  color: #8b9b7b;
+  line-height: 1.9;
+  padding-left: 4px;
+  margin-bottom: 9px;
+}
+.policy-card ul {
+  padding-left: 15px;
+  margin-top: 17px;
+  margin-bottom: 0;
+}
+.settings-action {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 18px 16px;
+  border-radius: 12px;
+  margin-top: 14px;
+  gap: 12px;
+  color: #799069;
+}
+.settings-action > span {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 6px;
+}
+.settings-action strong {
+  font-size: 11px;
+}
+.settings-action small {
+  font-size: 8px;
+  color: #a1ad92;
+}

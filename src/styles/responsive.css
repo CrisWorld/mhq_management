@@ -1,0 +1,90 @@
+@media (min-width: 600px) {
+  body {
+    background:
+      radial-gradient(ellipse at 18% 30%, #dce4d8, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, #e1e5d4, transparent 60%), #edf0e9;
+  }
+  .app-shell {
+    border-left: 1px solid #dde4d5;
+    border-right: 1px solid #dde4d5;
+  }
+  .sheet {
+    max-height: 89dvh;
+  }
+  .login-page {
+    padding: 45px 36px;
+  }
+  .login-art {
+    height: 205px;
+  }
+}
+@media (max-width: 370px) {
+  main {
+    padding: 21px 17px 108px;
+  }
+  .app-header {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+  .debt-card h2 {
+    font-size: 28px;
+  }
+  .debt-split strong {
+    font-size: 12px;
+  }
+  .stat-card {
+    padding: 14px 12px;
+  }
+  .stat-card > strong {
+    font-size: 15px;
+  }
+  .section-title h2 {
+    font-size: 13px;
+  }
+  .row-main > strong {
+    font-size: 10px;
+  }
+  .row-end strong {
+    font-size: 10px;
+  }
+  .customer-row {
+    gap: 7px;
+    padding: 14px 11px;
+  }
+  .row-chevron {
+    display: none;
+  }
+  .avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 9px;
+  }
+  .sheet-body {
+    padding-left: 19px;
+    padding-right: 19px;
+  }
+  .sheet-header {
+    padding-left: 19px;
+    padding-right: 19px;
+  }
+  .login-page {
+    padding: 29px 25px;
+  }
+  .phone-link {
+    font-size: 11px;
+  }
+  .line-item > strong {
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.field input,
+.field textarea,
+.search-field input {
+  font-size: 16px;
+}

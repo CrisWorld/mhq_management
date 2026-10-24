@@ -1,0 +1,6 @@
+node_modules
+dist
+.vercel
+artifacts
+package-lock.json
+supabase/prod-ca-2021.crt

@@ -1,5 +1,5 @@
 import { useUi } from '../../../app/providers/UiProvider';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../../app/providers/StoreProvider';
 import { useState } from 'react';
 import { Empty } from '../../../shared/ui/Empty';
@@ -14,12 +14,15 @@ import {
   ShoppingBag,
   FileText,
 } from 'lucide-react';
-import { initials, money, dateText } from '../../../lib/format';
+import { initials, money } from '../../../lib/format';
 import { Badge } from '../../../shared/ui/Badge';
 import { OrderRow } from '../../orders/components/OrderRow';
+import { NoteCard } from '../components/NoteCard';
+import { DeleteButton } from '../../../shared/ui/DeleteButton';
 
 export function CustomerDetail() {
   const { open } = useUi();
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const { data } = useStore();
@@ -122,21 +125,8 @@ export function CustomerDetail() {
           </button>
           {notes.length ? (
             <div className="notes-list">
-              {notes.map((n) => (
-                <article className="note-card" key={n.id}>
-                  <div>
-                    <FileText size={16} />
-                    <time>
-                      {dateText(n.created_at)} ·{' '}
-                      {new Intl.DateTimeFormat('vi-VN', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        timeZone: 'Asia/Ho_Chi_Minh',
-                      }).format(new Date(n.created_at))}
-                    </time>
-                  </div>
-                  <p>{n.content}</p>
-                </article>
+              {notes.map((note) => (
+                <NoteCard key={note.id} note={note} customer={c} />
               ))}
             </div>
           ) : (
@@ -148,6 +138,18 @@ export function CustomerDetail() {
           )}
         </>
       )}
+      <div className="record-danger-zone">
+        <DeleteButton
+          path={'customers/' + c.id}
+          label="Xoá khách hàng"
+          detail={
+            'Khách hàng “' +
+            c.name +
+            '” cùng đơn hàng, khoản thu và công nợ liên quan sẽ được ẩn khỏi danh sách và báo cáo.'
+          }
+          onDeleted={() => navigate('/customers', { replace: true })}
+        />
+      </div>
     </>
   );
 }

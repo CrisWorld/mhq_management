@@ -1,4 +1,4 @@
-import { Controller, Inject, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Inject, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { ValidatedBody } from '../../common/validation/validated-body.decorator.js';
 import { AuthGuard } from '../auth/auth.guard.js';
 import type { AuthRequest } from '../auth/auth-request.type.js';
@@ -25,5 +25,23 @@ export class CustomersController {
     @ValidatedBody(NoteDto) dto: NoteDto,
   ) {
     return this.customers.addNote(request, id, dto);
+  }
+  @Delete(':id') remove(@Req() request: AuthRequest, @Param('id') id: string) {
+    return this.customers.remove(request, id);
+  }
+  @Patch(':id/notes/:noteId') updateNote(
+    @Req() request: AuthRequest,
+    @Param('id') id: string,
+    @Param('noteId') noteId: string,
+    @ValidatedBody(NoteDto) dto: NoteDto,
+  ) {
+    return this.customers.updateNote(request, id, noteId, dto);
+  }
+  @Delete(':id/notes/:noteId') removeNote(
+    @Req() request: AuthRequest,
+    @Param('id') id: string,
+    @Param('noteId') noteId: string,
+  ) {
+    return this.customers.removeNote(request, id, noteId);
   }
 }

@@ -1,0 +1,137 @@
+.record-actions {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.record-actions .text-button,
+.danger-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 11px;
+}
+.record-actions > .delete-control {
+  flex: 1;
+  min-width: 140px;
+}
+.danger-link {
+  color: #a45143;
+  padding: 8px 0;
+}
+.danger-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 47px;
+  padding: 12px 15px;
+  color: #fff;
+  background: #a45143;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.delete-confirm {
+  width: 100%;
+  padding: 15px;
+  background: #fff3ed;
+  border: 1px solid #eed5c9;
+  border-radius: 11px;
+}
+.delete-confirm > strong {
+  font-size: 13px;
+  color: #874535;
+}
+.delete-confirm > p {
+  margin: 9px 0 13px;
+  font-size: 11px;
+  color: #916657;
+  line-height: 1.8;
+}
+.record-danger-zone {
+  margin-top: 26px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.compact-actions {
+  margin-top: 8px;
+}
+.ledger-entry + .ledger-entry {
+  border-top: 1px solid #f0f2e9;
+}
+.ledger-entry .ledger-row {
+  border-bottom: 0;
+}
+.ledger-actions {
+  padding: 0 14px 12px;
+  margin-top: -10px;
+}
+.item-price {
+  display: block;
+  font-size: 10px;
+  color: #839475;
+  max-width: 155px;
+}
+.item-price .money-input {
+  margin-top: 5px;
+}
+.item-price input {
+  width: 100%;
+  min-height: 40px;
+  padding: 9px 25px 9px 8px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: 12px;
+}
+.item-price .money-input > span {
+  top: 12px;
+  right: 10px;
+}
+.trash-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0;
+  font-size: 12px;
+  color: #617553;
+}
+.trash-filter select {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 12px;
+  color: #314d38;
+  background: white;
+}
+.trash-list {
+  display: grid;
+  gap: 12px;
+}
+.trash-card {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+.trash-card > small {
+  font-size: 10px;
+  color: #91a083;
+}
+.trash-card h3 {
+  margin-top: 10px;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+.trash-card p {
+  margin: 8px 0;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #839475;
+}
+.trash-card button {
+  margin-top: 7px;
+}

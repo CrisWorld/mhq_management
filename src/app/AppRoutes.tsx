@@ -5,6 +5,7 @@ import { CustomerDetail } from '../features/customers/pages/CustomerDetailPage';
 import { OrderDetail } from '../features/orders/pages/OrderDetailPage';
 import { Products } from '../features/products/pages/ProductsPage';
 import { Settings } from '../features/settings/pages/SettingsPage';
+import { TrashPage } from '../features/settings/pages/TrashPage';
 import { Empty } from '../shared/ui/Empty';
 export function AppRoutes() {
   return (
@@ -15,6 +16,7 @@ export function AppRoutes() {
       <Route path="/orders/:id" element={<OrderDetail />} />
       <Route path="/products" element={<Products />} />
       <Route path="/settings" element={<Settings />} />
+      <Route path="/settings/trash" element={<TrashPage />} />
       <Route
         path="*"
         element={

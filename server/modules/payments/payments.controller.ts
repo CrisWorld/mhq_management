@@ -1,9 +1,10 @@
-import { Controller, Inject, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Inject, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { ValidatedBody } from '../../common/validation/validated-body.decorator.js';
 import { AuthGuard } from '../auth/auth.guard.js';
 import type { AuthRequest } from '../auth/auth-request.type.js';
 import { PaymentsService } from './payments.service.js';
 import { PaymentDto } from './dto/payment.dto.js';
+import { PaymentUpdateDto } from './dto/payment-update.dto.js';
 @Controller('api/orders/:id/payments')
 @UseGuards(AuthGuard)
 export class PaymentsController {
@@ -14,5 +15,20 @@ export class PaymentsController {
     @ValidatedBody(PaymentDto) dto: PaymentDto,
   ) {
     return this.payments.create(request, id, dto);
+  }
+  @Patch(':paymentId') update(
+    @Req() request: AuthRequest,
+    @Param('id') id: string,
+    @Param('paymentId') paymentId: string,
+    @ValidatedBody(PaymentUpdateDto) dto: PaymentUpdateDto,
+  ) {
+    return this.payments.update(request, id, paymentId, dto);
+  }
+  @Delete(':paymentId') remove(
+    @Req() request: AuthRequest,
+    @Param('id') id: string,
+    @Param('paymentId') paymentId: string,
+  ) {
+    return this.payments.remove(request, id, paymentId);
   }
 }

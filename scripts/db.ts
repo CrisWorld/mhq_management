@@ -3,6 +3,9 @@ import pg from 'pg';
 import { readFileSync } from 'node:fs';
 dotenv.config({ path: '.env.local' });
 dotenv.config();
+// PostgreSQL DATE has no timezone; keep YYYY-MM-DD instead of converting midnight
+// in the machine's timezone to a different UTC calendar day.
+pg.types.setTypeParser(pg.types.builtins.DATE, (value) => value);
 export function database() {
   return new pg.Client({
     host: process.env.DATABASE_HOST,

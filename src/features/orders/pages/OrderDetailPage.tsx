@@ -1,23 +1,18 @@
 import { useUi } from '../../../app/providers/UiProvider';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../../app/providers/StoreProvider';
 import { Empty } from '../../../shared/ui/Empty';
 import { balanceAt } from '../../../../shared/finance';
 import { Back } from '../../../shared/ui/Back';
 import { dateText, money } from '../../../lib/format';
 import { Badge } from '../../../shared/ui/Badge';
-import {
-  CreditCard,
-  Package,
-  Sofa,
-  ShieldCheck,
-  ArrowDownLeft,
-  TrendingUp,
-  Clock3,
-} from 'lucide-react';
+import { CreditCard, Package, Sofa, ShieldCheck, Pencil } from 'lucide-react';
+import { DeleteButton } from '../../../shared/ui/DeleteButton';
+import { OrderLedger } from '../components/OrderLedger';
 
 export function OrderDetail() {
   const { open } = useUi();
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const { data } = useStore();
@@ -38,6 +33,13 @@ export function OrderDetail() {
           {b.total > 0 ? 'Còn nợ' : 'Đã tất toán'}
         </Badge>
       </div>
+      <button
+        className="secondary full"
+        onClick={() => open({ type: 'order', customer: c, order: o })}
+      >
+        <Pencil size={17} />
+        Sửa đơn hàng
+      </button>
       <div className="balance-summary order-balance">
         <span>Cần thanh toán</span>
         <h2>{money(b.total)}</h2>
@@ -99,39 +101,18 @@ export function OrderDetail() {
               ? 'Miễn lãi tháng mua. Tính trên gốc đầu tháng, không nhập lãi vào gốc. Thu tiền trừ lãi trước.'
               : 'Chính sách miễn lãi đã được lưu với đơn này.'}
           </p>
-          <small>Chính sách cố định từ ngày tạo đơn.</small>
+          <small>Mức lãi được giữ từ ngày tạo đơn. Chỉ thay đổi khi sửa trực tiếp đơn này.</small>
         </div>
       </div>
-      <div className="section-title ledger-title">
-        <h2>Lịch sử công nợ</h2>
-        <span>{b.ledger.length} giao dịch</span>
-      </div>
-      {b.ledger.length ? (
-        <div className="ledger">
-          {[...b.ledger].reverse().map((e, i) => (
-            <div className="ledger-row" key={i}>
-              <div className={'ledger-icon ' + (e.type === 'payment' ? 'mint' : 'peach')}>
-                {e.type === 'payment' ? <ArrowDownLeft size={18} /> : <TrendingUp size={18} />}
-              </div>
-              <div>
-                <strong>{e.label}</strong>
-                <time>{dateText(e.date)}</time>
-                <small>Còn {money(e.principal + e.interest)}</small>
-              </div>
-              <strong className={e.type === 'payment' ? 'settled-text' : 'interest-text'}>
-                {e.type === 'payment' ? '−' : '+'}
-                {money(e.amount)}
-              </strong>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <Empty
-          icon={<Clock3 />}
-          title="Chưa phát sinh giao dịch"
-          detail="Các lần trả trước, trả góp và lãi tháng sẽ xuất hiện ở đây."
+      <OrderLedger order={o} balance={b} />
+      <div className="record-danger-zone">
+        <DeleteButton
+          path={'orders/' + o.id}
+          label="Xoá đơn hàng"
+          detail="Đơn hàng, khoản thu và công nợ của đơn sẽ được ẩn khỏi báo cáo. Các khoản thu vẫn được giữ cùng đơn."
+          onDeleted={() => navigate('/customers/' + o.customer_id, { replace: true })}
         />
-      )}
+      </div>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { useUi } from '../../../app/providers/UiProvider';
-import type { Order } from '../../../../shared/types';
+import type { Order, Payment } from '../../../../shared/types';
 import { useStore } from '../../../app/providers/StoreProvider';
 import { useState, useRef } from 'react';
 import { todayVN, balanceAt } from '../../../../shared/finance';
@@ -9,33 +9,58 @@ import { Field } from '../../../shared/ui/Field';
 import { MoneyInput } from '../../../shared/ui/MoneyInput';
 import { ShieldCheck } from 'lucide-react';
 
-export function PaymentForm({ order, close }: { order: Order; close: () => void }) {
+export function PaymentForm({
+  order,
+  payment,
+  close,
+}: {
+  order: Order;
+  payment?: Payment;
+  close: () => void;
+}) {
   const { notify } = useUi();
 
   const { data, mutate } = useStore();
-  const [date, setDate] = useState(todayVN());
-  const [amount, setAmount] = useState('');
-  const [note, setNote] = useState('');
+  const [date, setDate] = useState(payment?.paid_on || todayVN());
+  const [amount, setAmount] = useState(payment ? String(payment.amount) : '');
+  const [note, setNote] = useState(payment?.note || '');
   const id = useRef(crypto.randomUUID());
-  const b = balanceAt(order, date);
-  const minDate =
-    order.payments
-      .map((p) => p.paid_on)
-      .sort()
-      .at(-1) || order.ordered_on;
+  const precedingPayments = payment
+    ? order.payments.filter(
+        (row) =>
+          row.id !== payment.id &&
+          (row.paid_on < date ||
+            (row.paid_on === date &&
+              (row.created_at < payment.created_at ||
+                (row.created_at === payment.created_at && row.id < payment.id)))),
+      )
+    : order.payments;
+  const b = balanceAt({ ...order, payments: precedingPayments }, date);
+  const minDate = payment
+    ? order.ordered_on
+    : order.payments
+        .map((p) => p.paid_on)
+        .sort()
+        .at(-1) || order.ordered_on;
   return (
     <SubmitForm
-      label="Xác nhận đã thu tiền"
+      label={payment ? 'Lưu thay đổi khoản thu' : 'Xác nhận đã thu tiền'}
       onSave={async () => {
         if (Number(amount) <= 0 || Number(amount) > b.total)
           throw new Error('Số tiền thu phải lớn hơn 0 và không vượt số nợ tại ngày thu.');
-        await mutate('orders/' + order.id + '/payments', 'POST', {
-          id: id.current,
-          amount: Number(amount),
-          paid_on: date,
-          note: note.trim(),
-        });
-        notify('Đã ghi nhận tiền trả góp.');
+        await mutate(
+          'orders/' + order.id + '/payments' + (payment ? '/' + payment.id : ''),
+          payment ? 'PATCH' : 'POST',
+          {
+            ...(payment ? { version: payment.version || 1 } : { id: id.current }),
+            amount: Number(amount),
+            paid_on: date,
+            note: note.trim(),
+          },
+        );
+        notify(
+          payment ? 'Đã cập nhật khoản thu và tính lại công nợ.' : 'Đã ghi nhận tiền trả góp.',
+        );
         close();
       }}
     >
@@ -50,7 +75,16 @@ export function PaymentForm({ order, close }: { order: Order; close: () => void 
           Gốc {money(b.principal)} · Lãi {money(b.interest)}
         </small>
       </div>
-      <Field label="Ngày nhận tiền" hint="Ngày thu không được trước lần thu gần nhất.">
+      <Field
+        label="Ngày nhận tiền"
+        hint={
+          payment?.kind === 'down_payment'
+            ? 'Trả trước cùng ngày mua. Sửa ngày mua tại đơn hàng.'
+            : payment
+              ? 'Lịch sử công nợ sẽ được tính lại từ ngày này.'
+              : 'Ngày thu không được trước lần thu gần nhất.'
+        }
+      >
         <input
           type="date"
           min={minDate}
@@ -59,6 +93,7 @@ export function PaymentForm({ order, close }: { order: Order; close: () => void 
           onInput={(e) => setDate(e.currentTarget.value)}
           onChange={(e) => setDate(e.target.value)}
           required
+          disabled={payment?.kind === 'down_payment'}
         />
       </Field>
       <Field label="Số tiền đã nhận">
@@ -93,7 +128,11 @@ export function PaymentForm({ order, close }: { order: Order; close: () => void 
       </Field>
       <div className="info-note">
         <ShieldCheck size={17} />
-        <span>Kiểm tra số tiền trước khi lưu. Khoản thu được giữ trong lịch sử công nợ.</span>
+        <span>
+          {payment
+            ? 'Thay đổi phải phù hợp với các khoản thu sau đó. Hệ thống sẽ chặn nếu có khoản thu vượt số nợ.'
+            : 'Kiểm tra số tiền trước khi lưu. Khoản thu được giữ trong lịch sử công nợ.'}
+        </span>
       </div>
     </SubmitForm>
   );

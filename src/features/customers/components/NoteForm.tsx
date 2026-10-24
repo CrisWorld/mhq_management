@@ -1,21 +1,33 @@
 import { useUi } from '../../../app/providers/UiProvider';
-import type { Customer } from '../../../../shared/types';
+import type { Customer, Note } from '../../../../shared/types';
 import { useStore } from '../../../app/providers/StoreProvider';
 import { useState } from 'react';
 import { SubmitForm } from '../../../shared/ui/SubmitForm';
 import { initials } from '../../../lib/format';
 import { Field } from '../../../shared/ui/Field';
 
-export function NoteForm({ customer, close }: { customer: Customer; close: () => void }) {
+export function NoteForm({
+  customer,
+  note,
+  close,
+}: {
+  customer: Customer;
+  note?: Note;
+  close: () => void;
+}) {
   const { notify } = useUi();
   const { mutate } = useStore();
-  const [text, setText] = useState('');
+  const [text, setText] = useState(note?.content || '');
   return (
     <SubmitForm
       label="Lưu ghi chú"
       onSave={async () => {
         if (!text.trim()) throw new Error('Vui lòng nhập nội dung ghi chú.');
-        await mutate('customers/' + customer.id + '/notes', 'POST', { content: text.trim() });
+        await mutate(
+          'customers/' + customer.id + '/notes' + (note ? '/' + note.id : ''),
+          note ? 'PATCH' : 'POST',
+          { content: text.trim() },
+        );
         notify('Đã lưu ghi chú.');
         close();
       }}

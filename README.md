@@ -8,11 +8,21 @@
 
 - Chỉ đăng nhập bằng tài khoản được cấp sẵn qua Supabase Auth. Đăng ký công khai bị tắt.
 - Dashboard chọn tháng, biểu đồ doanh thu và thực thu theo năm; danh sách khách chưa trả góp.
-- Tìm khách theo tên không dấu, điện thoại hoặc địa chỉ; tạo/sửa khách; gọi bằng liên kết điện thoại.
+- Tìm khách theo tên không dấu, điện thoại hoặc địa chỉ; thêm/sửa/xoá mềm khách; gọi bằng liên kết điện thoại.
 - Tạo đơn từ khách, chọn sản phẩm/số lượng, thêm nhanh sản phẩm, ghi nhận trả trước, ngày mua và ghi chú.
-- Thu trả góp, xem phân bổ lãi/gốc và lịch sử công nợ.
-- Nhiều ghi chú cho mỗi khách, kèm thời gian Việt Nam.
-- Danh mục sản phẩm, cài đặt mức lãi, tải bản sao dữ liệu JSON.
+- Sửa đơn: ngày mua, sản phẩm, số lượng, đơn giá, lựa chọn tính lãi và ghi chú. Giữ mức lãi đã snapshot từ lúc tạo.
+- Thêm/sửa/xoá mềm khoản trả trước và trả góp, xem phân bổ lãi/gốc và lịch sử công nợ được tính lại.
+- Thêm/sửa/xoá mềm ghi chú cho mỗi khách, kèm thời gian Việt Nam.
+- Thêm/sửa/xoá mềm sản phẩm, cài đặt mức lãi, tải bản sao dữ liệu đang hoạt động (JSON).
+- Cửa hàng → **Thùng rác**: xem và khôi phục khách hàng, sản phẩm, đơn hàng, khoản thu, ghi chú. Không có thao tác xoá vĩnh viễn.
+
+## Sửa và xoá dữ liệu
+
+Mọi bản ghi nghiệp vụ có `deleted_at` và `updated_at`. Xoá chỉ đánh dấu thời gian; database chặn quyền `DELETE` của người dùng trên mọi bảng nghiệp vụ. Khi sửa sản phẩm trong đơn, những dòng cũ cũng được giữ lại bằng xoá mềm.
+
+Xoá khách hàng ẩn các đơn, khoản thu, ghi chú và công nợ liên quan khỏi danh sách và báo cáo. Xoá đơn ẩn khoản thu của đơn. Khôi phục khách/đơn hiện lại dữ liệu con chưa bị xoá riêng; những mục bị xoá riêng vẫn ở Thùng rác. Cần khôi phục khách/đơn cha trước khi khôi phục ghi chú/khoản thu. Xoá sản phẩm khỏi danh mục không ảnh hưởng tên/giá đã lưu trong đơn cũ.
+
+Sửa/xoá khoản thu tính lại gốc và lãi từ lịch sử còn hoạt động; các báo cáo tháng cũ cũng phản ánh phần dữ liệu đang hoạt động. Sửa ngày mua chuyển ngày trả trước đang hoạt động theo ngày mua mới. Sửa tiền trả trước ở **Lịch sử công nợ → Sửa khoản thu**. Mỗi thay đổi tài chính chạy trong transaction với khoá theo cửa hàng, kiểm tra lại toàn bộ chuỗi khoản thu, từ chối nếu có khoản thu vượt nợ, sai ngày hoặc khôi phục gây thu thừa. Đơn/khoản thu có `version` để chặn ghi đè bằng biểu mẫu cũ.
 
 ## Quy tắc công nợ
 
@@ -21,7 +31,7 @@
 3. Lãi mỗi tháng làm tròn đến đồng; lãi chưa trả cộng dồn nhưng không nhập gốc, không sinh lãi kép.
 4. Tiền nhận trả lãi trước rồi trừ gốc. Trả trước được ghi ngay vào ngày mua.
 5. Mức lãi, có/không tính lãi và tên/giá sản phẩm được snapshot vào đơn. Đổi cài đặt, khách hoặc sản phẩm không sửa đơn cũ.
-6. Không cần cron: lịch sử bất biến được tính lại theo ngày báo cáo. SQL xác minh nợ trước khi ghi nhận thu, TypeScript hiển thị cùng quy tắc, có kiểm tra đối chiếu.
+6. Không cần cron: công nợ được tính lại từ đơn và khoản thu chưa xoá theo ngày báo cáo. SQL xác minh lịch sử trước khi ghi nhận thay đổi, TypeScript hiển thị cùng quy tắc, có kiểm tra đối chiếu.
 7. Không ghi thu trong tương lai, trước ngày mua hoặc trước lần thu gần nhất. Không thu quá số nợ tại ngày nhận tiền. Lưu đơn và trả trước trong một transaction; RPC khóa đơn khi thu; request UUID ngăn tạo giao dịch trùng khi retry.
 8. Khách chưa trả góp trong tháng: có ít nhất một đơn mua trước tháng đó, còn dư nợ tại ngày báo cáo, chưa có lần thu trả góp trên đơn đó trong tháng. Khách có nhiều đơn phải có khoản thu ở từng đơn đang nợ; trả trước không tính là trả góp. Chưa có lịch hẹn hoặc mức trả góp bắt buộc.
 9. Doanh thu là tổng giá trị đơn theo ngày mua; thực thu là tiền nhận theo ngày nhận, gồm trả trước và trả góp. Báo cáo quá khứ chốt cuối tháng, tháng hiện tại chốt hôm nay, múi giờ `Asia/Ho_Chi_Minh`.
@@ -41,7 +51,7 @@ src/
     customers/              # Danh sách, chi tiết, biểu mẫu, ghi chú
     orders/                 # Chi tiết đơn, tạo đơn, chọn sản phẩm, thu tiền
     products/               # Danh mục và biểu mẫu sản phẩm
-    settings/               # Chính sách lãi, xuất dữ liệu, đăng xuất
+    settings/               # Chính sách lãi, Thùng rác, xuất dữ liệu, đăng xuất
   shared/ui/                # Component giao diện dùng chung
   lib/                      # Supabase client, HTTP client, định dạng, lỗi
   styles/                   # CSS tách theo chức năng
@@ -49,7 +59,7 @@ server/
   app.ts                    # Khởi tạo NestJS/Express cho local và Vercel
   app.module.ts             # Ghép các module nghiệp vụ
   modules/                  # auth, health, customers, products, orders,
-                            # payments, settings, state
+                            # payments, settings, state, trash
     <feature>/              # Module, controller, service, DTO của chức năng
   common/                   # Database helpers, validation decorator
   config/                   # Đọc cấu hình máy chủ
@@ -87,9 +97,11 @@ TEST_BASE_URL=https://mhqmanagement.vercel.app npm run test:live
 
 ## Supabase & bảo mật
 
-Các migration nằm trong `supabase/migrations/`. Mọi bảng nghiệp vụ bật RLS theo `auth.uid()`, FK ghép ngăn tham chiếu chéo cửa hàng. `anon` không có quyền dữ liệu. Người dùng không được trực tiếp thêm/sửa/xóa đơn, chi tiết đơn, khoản thu: chỉ ghi qua các RPC có kiểm tra chủ sở hữu. API xác minh JWT với Supabase Auth và tiếp tục dùng token người dùng, không bypass RLS.
+Các migration nằm trong `supabase/migrations/`. Mọi bảng nghiệp vụ bật RLS theo `auth.uid()`, FK ghép ngăn tham chiếu chéo cửa hàng. `anon` không có quyền dữ liệu. Khách, sản phẩm, ghi chú, đơn, chi tiết đơn và khoản thu chỉ có quyền đọc trực tiếp; mọi thay đổi đi qua RPC kiểm tra chủ sở hữu và dữ liệu đã xoá. API xác minh JWT với Supabase Auth và tiếp tục dùng token người dùng, không bypass RLS.
 
 API: `/api/health`, `/api/state`, `/api/customers`, `/api/products`, `/api/customers/:id/notes`, `/api/orders`, `/api/orders/:id/payments`, `/api/settings`.
+
+Các tài nguyên khách/sản phẩm/đơn/ghi chú/khoản thu hỗ trợ `POST` tạo, `PATCH .../:id` sửa và `DELETE .../:id` xoá mềm. Đơn/khoản thu cần `version` hiện tại khi sửa. `GET /api/trash` liệt kê mục đã xoá; `PATCH /api/trash/:type/:id/restore` khôi phục (`customer`, `product`, `order`, `note`, `payment`).
 
 ## Deploy Vercel
 
@@ -104,4 +116,4 @@ Supabase → Authentication: bật email provider, tắt **Allow new users to si
 
 ## Phạm vi phiên bản đầu
 
-Chưa có nhiều nhân viên cùng cửa hàng, chỉnh/xóa giao dịch tài chính, nhắc nợ tự động, tồn kho hoặc nhập lại bản sao JSON. Ghi chú dùng cho lịch hẹn thu. Cửa hàng nên tải bản sao định kỳ qua Cài đặt. Không chứa dữ liệu khách thật trong repo.
+Chưa có nhiều nhân viên cùng cửa hàng, nhắc nợ tự động, tồn kho hoặc nhập lại bản sao JSON. Ghi chú dùng cho lịch hẹn thu. Cửa hàng nên tải bản sao định kỳ qua Cài đặt. Không chứa dữ liệu khách thật trong repo.

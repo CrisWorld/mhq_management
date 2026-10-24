@@ -1,6 +1,6 @@
 import { supabase } from './supabase';
 
-export type HttpMethod = 'GET' | 'POST' | 'PATCH';
+export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 export async function request<T>(
   path: string,

@@ -14,11 +14,11 @@ function title(sheet: Sheet) {
     case 'product':
       return sheet.product ? 'Sửa sản phẩm' : 'Thêm sản phẩm';
     case 'note':
-      return 'Thêm ghi chú';
+      return sheet.note ? 'Sửa ghi chú' : 'Thêm ghi chú';
     case 'payment':
-      return 'Ghi nhận trả góp';
+      return sheet.payment ? 'Sửa khoản thu' : 'Ghi nhận trả góp';
     case 'order':
-      return 'Tạo đơn hàng';
+      return sheet.order ? 'Sửa đơn hàng' : 'Tạo đơn hàng';
   }
 }
 function SheetContent({ sheet, close }: { sheet: Sheet; close: () => void }) {
@@ -28,11 +28,11 @@ function SheetContent({ sheet, close }: { sheet: Sheet; close: () => void }) {
     case 'product':
       return <ProductForm product={sheet.product} onSaved={close} />;
     case 'note':
-      return <NoteForm customer={sheet.customer} close={close} />;
+      return <NoteForm customer={sheet.customer} note={sheet.note} close={close} />;
     case 'payment':
-      return <PaymentForm order={sheet.order} close={close} />;
+      return <PaymentForm order={sheet.order} payment={sheet.payment} close={close} />;
     case 'order':
-      return <OrderForm customer={sheet.customer} close={close} />;
+      return <OrderForm customer={sheet.customer} order={sheet.order} close={close} />;
   }
 }
 export function StoreSheet() {

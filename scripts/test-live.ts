@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { createClient } from '@supabase/supabase-js';
 import { database } from './db';
 import { todayVN } from '../shared/finance';
+import { checkLiveCrud } from './check-live-crud';
 const db = database(),
   uid = randomUUID(),
   email = `mhq-check-${uid}@example.test`,
@@ -96,6 +97,7 @@ try {
   assert.equal(state.orders[0].payments.length, 2);
   assert.equal(state.orders[0].interest_per_million, 20000);
   assert.equal(state.orders[0].items[0].price, 500000);
+  await checkLiveCrud(call, db, uid, customer.id, product.id, oid, pay.id);
   console.log(
     `PASS ${checks} authenticated HTTP checks including validation, atomic order, payments and snapshots`,
   );

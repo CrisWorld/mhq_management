@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
+import { readFile, readdir } from 'node:fs/promises';
 import { database } from './db';
 import { balanceAt } from '../shared/finance';
 import type { Order } from '../shared/types';
+import { checkCrud } from './check-crud';
 const db = database(),
   uid = randomUUID(),
   other = randomUUID(),
@@ -37,12 +39,23 @@ async function asUser(id: string) {
 try {
   await db.connect();
   await db.query('begin');
+  if (process.argv.includes('--pending')) {
+    for (const file of (await readdir('supabase/migrations'))
+      .filter((name) => name.endsWith('.sql'))
+      .sort()) {
+      if (
+        !(await db.query('select 1 from public.mhq_schema_migrations where version=$1', [file]))
+          .rowCount
+      ) {
+        await db.query(await readFile('supabase/migrations/' + file, 'utf8'));
+      }
+    }
+  }
   await db.query(
     "insert into auth.users(id,email,aud,role) values ($1,$2,'authenticated','authenticated'),($3,$4,'authenticated','authenticated')",
     [uid, 'mhq-test-' + uid + '@example.test', other, 'mhq-test-' + other + '@example.test'],
   );
   await db.query('insert into public.stores(owner_id) values ($1),($2)', [uid, other]);
-  await asUser(uid);
   await db.query("insert into public.customers(id,owner_id,name) values ($1,$2,'KH kiểm thử')", [
     customer,
     uid,
@@ -51,6 +64,7 @@ try {
     "insert into public.products(id,owner_id,name,price) values ($1,$2,'Sản phẩm kiểm thử',2000000)",
     [product, uid],
   );
+  await asUser(uid);
   const args = [
     order,
     customer,
@@ -114,7 +128,7 @@ try {
     'Interest-first allocation and reduced principal for next month',
   );
   await db.query('update public.stores set interest_per_million=50000 where owner_id=$1', [uid]);
-  await db.query("update public.products set price=500000,name='Giá mới' where id=$1", [product]);
+  await db.query("select public.save_product('Giá mới',500000,$1)", [product]);
   check(
     (await db.query('select interest_per_million,total from public.orders where id=$1', [order]))
       .rows[0].interest_per_million === 20000,
@@ -178,13 +192,13 @@ try {
   ).rows.map((p) => ({
     ...p,
     amount: Number(p.amount),
-    paid_on: p.paid_on.toISOString().slice(0, 10),
+    paid_on: p.paid_on,
     created_at: p.created_at.toISOString(),
   }));
   const o: Order = {
     ...row,
     total: Number(row.total),
-    ordered_on: row.ordered_on.toISOString().slice(0, 10),
+    ordered_on: row.ordered_on,
     payments,
     items: [],
   };
@@ -204,6 +218,7 @@ try {
       'SQL/TypeScript balances agree at ' + date,
     );
   }
+  await checkCrud(db, uid, other, { check, rejects, asUser });
   await asUser(other);
   for (const table of [
     'customers',

@@ -20,10 +20,10 @@ export function monthEnd(month: string): string {
  * All amounts are integer VND; round each monthly accrual to the nearest VND. */
 export function balanceAt(order: Order, asOf = todayVN()): Balance {
   const result: Balance = { principal: 0, interest: 0, total: 0, paid: 0, accrued: 0, ledger: [] };
-  if (order.ordered_on > asOf) return result;
+  if (order.deleted_at || order.ordered_on > asOf) return result;
   result.principal = Number(order.total);
   const events = [...order.payments]
-    .filter((p) => p.paid_on <= asOf)
+    .filter((p) => !p.deleted_at && p.paid_on <= asOf)
     .sort(
       (a, b) =>
         a.paid_on.localeCompare(b.paid_on) ||
@@ -61,6 +61,7 @@ export function balanceAt(order: Order, asOf = todayVN()): Balance {
     result.ledger.push({
       date: p.paid_on,
       type: 'payment',
+      payment_id: p.id,
       amount: Number(p.amount),
       principal: result.principal,
       interest: result.interest,
@@ -73,7 +74,7 @@ export function balanceAt(order: Order, asOf = todayVN()): Balance {
 }
 export function customerDebt(orders: Order[], customerId: string, asOf = todayVN()) {
   return orders
-    .filter((o) => o.customer_id === customerId)
+    .filter((o) => !o.deleted_at && o.customer_id === customerId)
     .reduce(
       (sum, o) => {
         const b = balanceAt(o, asOf);
@@ -88,7 +89,7 @@ export function customerDebt(orders: Order[], customerId: string, asOf = todayVN
 }
 export function monthlyReport(orders: Order[], month: string, now = todayVN()) {
   const asOf = monthEnd(month) < now ? monthEnd(month) : now;
-  const visible = orders.filter((o) => o.ordered_on <= asOf);
+  const visible = orders.filter((o) => !o.deleted_at && o.ordered_on <= asOf);
   // A customer is pending when at least one older, outstanding order has no installment this month.
   const pendingIds = [
     ...new Set(
@@ -98,7 +99,11 @@ export function monthlyReport(orders: Order[], month: string, now = todayVN()) {
             o.ordered_on.slice(0, 7) < month &&
             balanceAt(o, asOf).total > 0 &&
             !o.payments.some(
-              (p) => p.kind === 'installment' && p.paid_on.startsWith(month) && p.paid_on <= asOf,
+              (p) =>
+                !p.deleted_at &&
+                p.kind === 'installment' &&
+                p.paid_on.startsWith(month) &&
+                p.paid_on <= asOf,
             ),
         )
         .map((o) => o.customer_id),
@@ -121,7 +126,7 @@ export function monthlyReport(orders: Order[], month: string, now = todayVN()) {
       .reduce((s, o) => s + Number(o.total), 0),
     collected: visible
       .flatMap((o) => o.payments)
-      .filter((p) => p.paid_on.startsWith(month) && p.paid_on <= asOf)
+      .filter((p) => !p.deleted_at && p.paid_on.startsWith(month) && p.paid_on <= asOf)
       .reduce((s, p) => s + Number(p.amount), 0),
     orderCount: visible.filter((o) => o.ordered_on.startsWith(month)).length,
   };

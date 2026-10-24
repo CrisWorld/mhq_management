@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { balanceAt, monthlyReport, todayVN } from '../shared/finance';
+import { balanceAt, customerDebt, monthlyReport, todayVN } from '../shared/finance';
 import type { Order, Payment } from '../shared/types';
 const order = (patch: Partial<Order> = {}): Order => ({
   id: 'o1',
@@ -101,4 +101,26 @@ test('VND rounding is deterministic, including large amounts', () => {
 });
 test('uses Vietnam date around UTC month boundary', () => {
   assert.equal(todayVN(new Date('2026-01-31T18:00:00Z')), '2026-02-01');
+});
+test('deleted payments are excluded from balance, pending status and monthly collections', () => {
+  const o = order({
+    payments: [{ ...payment(220000, '2026-02-10'), deleted_at: '2026-02-11T00:00:00Z' }],
+  });
+  assert.equal(balanceAt(o, '2026-03-01').total, 1040000);
+  assert.equal(balanceAt(o, '2026-03-01').paid, 0);
+  const report = monthlyReport([o], '2026-02', '2026-02-28');
+  assert.equal(report.collected, 0);
+  assert.deepEqual(report.pendingIds, ['c1']);
+});
+test('deleted orders are excluded from debt, revenue and collections, including historical reports', () => {
+  const o = order({
+    deleted_at: '2026-03-01T00:00:00Z',
+    payments: [payment(100000, '2026-01-15', 'down_payment')],
+  });
+  assert.equal(balanceAt(o, '2026-01-31').total, 0);
+  assert.equal(customerDebt([o], 'c1', '2026-02-28').total, 0);
+  const report = monthlyReport([o], '2026-01', '2026-01-31');
+  assert.equal(report.revenue, 0);
+  assert.equal(report.collected, 0);
+  assert.equal(report.orderCount, 0);
 });

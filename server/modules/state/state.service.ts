@@ -43,18 +43,21 @@ export class StateService {
       listAll<ItemRecord>(db, 'order_items'),
       listAll<Payment>(db, 'payments'),
     ]);
+    const activeCustomers = new Set(customers.map((customer) => customer.id));
     const itemsByOrder = groupByOrder(items);
     const paymentsByOrder = groupByOrder(payments);
     return {
       store,
       customers,
       products,
-      notes,
-      orders: orders.map((order) => ({
-        ...order,
-        items: itemsByOrder.get(order.id) || [],
-        payments: paymentsByOrder.get(order.id) || [],
-      })),
+      notes: notes.filter((note) => activeCustomers.has(note.customer_id)),
+      orders: orders
+        .filter((order) => activeCustomers.has(order.customer_id))
+        .map((order) => ({
+          ...order,
+          items: itemsByOrder.get(order.id) || [],
+          payments: paymentsByOrder.get(order.id) || [],
+        })),
     };
   }
 }

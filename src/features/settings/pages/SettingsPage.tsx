@@ -5,7 +5,7 @@ import { errorText } from '../../../lib/errors';
 import { useStore } from '../../../app/providers/StoreProvider';
 import { useState } from 'react';
 import { todayVN } from '../../../../shared/finance';
-import { Settings2, ShieldCheck, FileText, ChevronRight, LogOut } from 'lucide-react';
+import { Settings2, ShieldCheck, FileText, ChevronRight, LogOut, Trash2 } from 'lucide-react';
 import { SubmitForm } from '../../../shared/ui/SubmitForm';
 import { Field } from '../../../shared/ui/Field';
 import { MoneyInput } from '../../../shared/ui/MoneyInput';
@@ -114,6 +114,14 @@ export function Settings() {
           </li>
         </ul>
       </section>
+      <button className="settings-action" onClick={() => navigate('/settings/trash')}>
+        <Trash2 size={19} />
+        <span>
+          <strong>Thùng rác</strong>
+          <small>Khôi phục khách hàng, sản phẩm và giao dịch đã xoá</small>
+        </span>
+        <ChevronRight size={17} />
+      </button>
       <button className="settings-action" onClick={exportData}>
         <FileText size={19} />
         <span>

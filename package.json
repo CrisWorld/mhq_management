@@ -12,7 +12,8 @@
     "test": "tsx --test tests/*.test.ts",
     "test:db": "tsx scripts/test-database.ts",
     "db:migrate": "tsx scripts/migrate.ts",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "test:live": "tsx scripts/test-live.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.2.8",

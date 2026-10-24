@@ -1,5 +1,7 @@
 # MHQ · Sổ cửa hàng nội thất
 
+**Bản triển khai:** https://mhqmanagement.vercel.app
+
 Ứng dụng React dành cho điện thoại, API NestJS và Supabase (PostgreSQL + Auth). Frontend và API chạy cùng một dự án Vercel, không cần thuê máy chủ riêng.
 
 ## Chức năng
@@ -42,6 +44,8 @@ npm run build
 npm test
 npm run db:migrate
 npm run test:db
+# Kiểm tra HTTP có đăng nhập (tạo và tự dọn tài khoản mẫu riêng):
+TEST_BASE_URL=https://mhqmanagement.vercel.app npm run test:live
 ```
 
 `db:migrate` và `test:db` dùng `DATABASE_HOST`, `DATABASE_USER`, `SUPERBASE_DATABASE_PASSWORD` (giữ tên biến của workspace ban đầu). Kết nối SSL xác minh chứng chỉ gốc chính thức trong `supabase/prod-ca-2021.crt`. Mật khẩu DB chỉ ở máy cá nhân và không đưa lên Vercel/Git. Các fixture database kiểm thử nằm trong transaction luôn rollback.

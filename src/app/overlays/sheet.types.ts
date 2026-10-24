@@ -1,6 +1,7 @@
 import type { Customer, Note, Order, Payment, Product } from '../../../shared/types';
 
 export type Sheet =
+  | { type: 'share'; customer: Customer }
   | { type: 'customer'; customer?: Customer }
   | { type: 'product'; product?: Product }
   | { type: 'note'; customer: Customer; note?: Note }

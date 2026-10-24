@@ -12,6 +12,9 @@ test('NestJS health works and store APIs require authentication', async () => {
     assert.equal((await fetch(base + '/api/health')).status, 200);
     for (const [path, method] of [
       ['state', 'GET'],
+      ['customers/00000000-0000-4000-8000-000000000000/share', 'GET'],
+      ['customers/00000000-0000-4000-8000-000000000000/share', 'POST'],
+      ['customers/00000000-0000-4000-8000-000000000000/share', 'DELETE'],
       ['customers', 'POST'],
       ['products', 'POST'],
       ['settings', 'PATCH'],
@@ -43,6 +46,14 @@ test('NestJS health works and store APIs require authentication', async () => {
       });
       assert.equal(result.status, 401, path + ' should require authentication');
     }
+    const malformed = await fetch(base + '/api/public/statement', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: 'not-a-capability' }),
+    });
+    assert.equal(malformed.status, 400);
+    const directGet = await fetch(base + '/api/public/statement');
+    assert.equal(directGet.status, 404);
   } finally {
     await new Promise<void>((resolve, reject) => server.close((e) => (e ? reject(e) : resolve())));
   }

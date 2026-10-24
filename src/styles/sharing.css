@@ -1,0 +1,314 @@
+.share-recipient {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.share-recipient strong {
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.share-recipient p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.share-explanation {
+  line-height: 1.8;
+  color: var(--muted);
+}
+.share-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px 0;
+  color: var(--muted);
+}
+.share-panel {
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+}
+.share-status {
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.share-status .status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--green);
+  margin-right: 4px;
+}
+.share-buttons {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.share-url {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.share-url input {
+  display: block;
+  margin-top: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  width: 100%;
+  color: var(--green);
+  background: white;
+  min-height: 48px;
+}
+.share-revoke {
+  margin-top: 20px;
+}
+.customer-share-button {
+  margin-top: 12px;
+}
+.statement-page main {
+  padding-bottom: max(32px, env(safe-area-inset-bottom));
+}
+.statement-header {
+  min-height: 72px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+.statement-loading {
+  min-height: 60dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: var(--muted);
+}
+.statement-intro {
+  margin: 4px 0 24px;
+}
+.statement-intro .eyebrow {
+  letter-spacing: 0.8px;
+  overflow-wrap: anywhere;
+}
+.statement-intro h1 {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.statement-intro > p:last-child {
+  font-size: 14px;
+  color: var(--muted);
+}
+.statement-balance {
+  border-top: 4px solid var(--green);
+  padding: 20px 18px;
+}
+.statement-balance h2 {
+  font-size: 32px;
+}
+.statement-balance .summary-line {
+  align-items: flex-start;
+}
+.statement-balance .summary-line strong {
+  text-align: right;
+  white-space: nowrap;
+}
+.statement-updated {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 28px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.statement-updated small {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+}
+.statement-orders h2 {
+  font-size: 18px;
+}
+.statement-order {
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: white;
+  overflow: hidden;
+}
+.statement-order summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 18px 16px;
+}
+.statement-order summary::-webkit-details-marker {
+  display: none;
+}
+.statement-order summary:focus-visible {
+  outline: 3px solid #9fc9b5;
+  outline-offset: -3px;
+}
+.statement-order-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.statement-order-top > strong {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.statement-order-date {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 8px;
+}
+.statement-order-products {
+  display: block;
+  font-size: 14px;
+  margin: 16px 0;
+  overflow-wrap: anywhere;
+}
+.statement-order-due {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.statement-order-due > span {
+  flex: 1;
+  font-size: 13px;
+  color: var(--muted);
+}
+.statement-order-due strong {
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.statement-expand-hint {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 12px;
+}
+.statement-order[open] .statement-chevron {
+  transform: rotate(180deg);
+}
+.statement-order-content {
+  padding: 0 16px 18px;
+  border-top: 1px solid var(--border);
+}
+.statement-facts {
+  padding: 16px 0 24px;
+  display: grid;
+  gap: 12px;
+  font-size: 13px;
+}
+.statement-facts > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.statement-facts span {
+  color: var(--muted);
+}
+.statement-facts strong {
+  white-space: nowrap;
+  text-align: right;
+}
+.statement-items {
+  list-style: none;
+  margin: 12px 0 20px;
+  padding: 0;
+}
+.statement-items li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.statement-items li > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.statement-items small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.statement-items strong {
+  flex-shrink: 0;
+}
+.statement-interest {
+  padding: 16px;
+  background: var(--bg);
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+.statement-interest p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.8;
+}
+.statement-ledger {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.statement-ledger li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.statement-ledger li:last-child {
+  border: 0;
+  padding-bottom: 0;
+}
+.statement-ledger li > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+}
+.statement-ledger time {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 6px 0;
+}
+.statement-ledger p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.statement-no-orders {
+  margin-top: 16px;
+  padding: 24px 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+}
+.statement-footer {
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}

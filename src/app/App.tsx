@@ -1,3 +1,5 @@
+import { Route, Routes } from 'react-router-dom';
+import { CustomerStatementPage } from '../features/sharing/pages/CustomerStatementPage';
 import { UiProvider } from './providers/UiProvider';
 import { AuthProvider, useAuth } from './providers/AuthProvider';
 import { StoreProvider } from './providers/StoreProvider';
@@ -29,8 +31,16 @@ function AuthenticatedApp() {
 }
 export default function App() {
   return (
-    <AuthProvider>
-      <AuthenticatedApp />
-    </AuthProvider>
+    <Routes>
+      <Route path="/share" element={<CustomerStatementPage />} />
+      <Route
+        path="*"
+        element={
+          <AuthProvider>
+            <AuthenticatedApp />
+          </AuthProvider>
+        }
+      />
+    </Routes>
   );
 }

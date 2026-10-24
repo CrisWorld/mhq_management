@@ -1,3 +1,4 @@
+import { CustomerSharePanel } from '../../features/sharing/components/CustomerSharePanel';
 import { X } from 'lucide-react';
 import { useUi } from '../providers/UiProvider';
 import { CustomerForm } from '../../features/customers/components/CustomerForm';
@@ -9,6 +10,8 @@ import { useSheetFocus } from './useSheetFocus';
 import type { Sheet } from './sheet.types';
 function title(sheet: Sheet) {
   switch (sheet.type) {
+    case 'share':
+      return 'Chia sẻ công nợ';
     case 'customer':
       return sheet.customer ? 'Sửa khách hàng' : 'Thêm khách hàng';
     case 'product':
@@ -23,6 +26,8 @@ function title(sheet: Sheet) {
 }
 function SheetContent({ sheet, close }: { sheet: Sheet; close: () => void }) {
   switch (sheet.type) {
+    case 'share':
+      return <CustomerSharePanel customer={sheet.customer} />;
     case 'customer':
       return <CustomerForm customer={sheet.customer} close={close} />;
     case 'product':

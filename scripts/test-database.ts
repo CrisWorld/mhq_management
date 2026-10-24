@@ -4,6 +4,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { database } from './db';
 import { balanceAt } from '../shared/finance';
 import type { Order } from '../shared/types';
+import { checkSharing } from './check-sharing';
 import { checkCrud } from './check-crud';
 const db = database(),
   uid = randomUUID(),
@@ -253,6 +254,7 @@ try {
   await db.query('reset role');
   await db.query('set local role anon');
   await rejects('select * from public.customers', [], 'Unauthenticated reads denied');
+  await checkSharing(db, uid, other, { check, rejects, asUser });
   await db.query('rollback');
   console.log(`${checks} database checks passed; all test fixtures rolled back.`);
 } catch (e) {

@@ -14,6 +14,7 @@ import {
   ShoppingBag,
   FileText,
   CreditCard,
+  Share2,
 } from 'lucide-react';
 import { money } from '../../../lib/format';
 import { Badge } from '../../../shared/ui/Badge';
@@ -110,6 +111,12 @@ export function CustomerDetail() {
           <Plus size={19} /> Tạo đơn mới
         </button>
       </div>
+      <button
+        className="secondary full customer-share-button"
+        onClick={() => open({ type: 'share', customer: c })}
+      >
+        <Share2 size={18} /> Chia sẻ công nợ
+      </button>
       <div className="detail-tabs">
         <button
           aria-pressed={tab === 'orders'}

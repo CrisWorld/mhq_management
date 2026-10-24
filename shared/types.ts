@@ -90,3 +90,14 @@ export interface Balance {
   accrued: number;
   ledger: LedgerEntry[];
 }
+
+/** Only the fields needed by the common interest engine. */
+export type FinancialOrder = Pick<
+  Order,
+  'total' | 'ordered_on' | 'apply_interest' | 'interest_per_million' | 'deleted_at'
+> & {
+  payments: Pick<
+    Payment,
+    'id' | 'amount' | 'paid_on' | 'kind' | 'note' | 'created_at' | 'deleted_at'
+  >[];
+};

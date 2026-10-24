@@ -1,4 +1,4 @@
-import type { Balance, Order } from './types';
+import type { Balance, FinancialOrder, Order } from './types';
 export function todayVN(now = new Date()): string {
   return new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Ho_Chi_Minh',
@@ -18,7 +18,7 @@ export function monthEnd(month: string): string {
 /** Simple monthly interest. Purchase month is free. Interest never bears interest.
  * Accrual is at the start of each calendar month in Vietnam. Payments settle interest first.
  * All amounts are integer VND; round each monthly accrual to the nearest VND. */
-export function balanceAt(order: Order, asOf = todayVN()): Balance {
+export function balanceAt(order: FinancialOrder, asOf = todayVN()): Balance {
   const result: Balance = { principal: 0, interest: 0, total: 0, paid: 0, accrued: 0, ledger: [] };
   if (order.deleted_at || order.ordered_on > asOf) return result;
   result.principal = Number(order.total);

@@ -110,6 +110,7 @@ try {
   await db.query('begin');
   try {
     for (const table of [
+      'customer_share_links',
       'payments',
       'order_items',
       'orders',

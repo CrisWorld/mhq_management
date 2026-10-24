@@ -1,3 +1,4 @@
+import { SharingModule } from './modules/sharing/sharing.module.js';
 import { Module } from '@nestjs/common';
 import { HealthModule } from './modules/health/health.module.js';
 import { CustomersModule } from './modules/customers/customers.module.js';
@@ -17,6 +18,7 @@ import { TrashModule } from './modules/trash/trash.module.js';
     SettingsModule,
     StateModule,
     TrashModule,
+    SharingModule,
   ],
 })
 export class AppModule {}

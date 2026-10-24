@@ -7,8 +7,15 @@ import { LoginPage } from '../features/auth/pages/LoginPage';
 import { AppLoading } from '../shared/ui/AppLoading';
 
 function AuthenticatedApp() {
-  const { session, ready } = useAuth();
-  if (!ready) return <AppLoading />;
+  const { session, ready, error, restore } = useAuth();
+  if (!ready)
+    return (
+      <AppLoading
+        message="Đang khôi phục phiên đăng nhập…"
+        error={error}
+        onRetry={() => void restore()}
+      />
+    );
   if (!session) return <LoginPage />;
   return (
     <StoreProvider key={session.user.id}>

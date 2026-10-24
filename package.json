@@ -14,6 +14,7 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "preview": "vite preview --host 0.0.0.0",
     "test:live": "tsx scripts/test-live.ts",
+    "test:session": "tsx scripts/test-session.ts",
     "format": "prettier --write src server shared api tests scripts *.json *.ts",
     "format:check": "prettier --check src server shared api tests scripts *.json *.ts"
   },

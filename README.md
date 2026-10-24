@@ -72,6 +72,14 @@ Controller chỉ nhận request và chuyển đến service. Service gọi Supab
 
 `npm run format` định dạng mã; `npm run format:check` kiểm tra định dạng. TypeScript bật `strict`, kiểm tra biến và tham số không dùng.
 
+## Phiên đăng nhập
+
+Phiên được lưu bền vững bằng `localStorage` của Supabase SDK và tự làm mới bằng refresh token, kể cả khi đóng trình duyệt rồi mở lại sau hơn một tuần. Giữ nguyên storage key mặc định để các phiên đang dùng tiếp tục hoạt động khi cập nhật ứng dụng. Access token vẫn có thời hạn ngắn; không kéo dài JWT thành một tuần.
+
+Ứng dụng khôi phục phiên khi mở trang, quay lại ứng dụng hoặc có mạng trở lại. Lỗi mạng khi khôi phục hiện nút thử lại, không tự xoá phiên hay buộc nhập lại mật khẩu. API trả 401 sẽ được làm mới token và thử lại đúng một lần; không tự lặp giao dịch khi lỗi mạng hoặc lỗi nghiệp vụ. Đăng xuất chỉ kết thúc phiên trên thiết bị hiện tại.
+
+Trên Supabase hosted, giới hạn thời gian phiên và thời gian không hoạt động phải tắt hoặc dài hơn thời gian cần giữ phiên; mặc định Supabase không giới hạn hai thời gian này. `test:session` xác minh cấu hình hosted bằng tài khoản riêng: lùi thời gian phiên/hoạt động refresh token 8 ngày, mở lại client với access token hết hạn, khôi phục và gọi API. Kiểm thử cũng xác minh đăng xuất vẫn có hiệu lực. Tài khoản mẫu được dọn sạch. Việc xoá dữ liệu trình duyệt/chế độ riêng tư hoặc thu hồi phiên sẽ yêu cầu đăng nhập lại.
+
 ## Phát triển
 
 Dùng Node.js 22 (`nvm use`), sau đó:
@@ -91,6 +99,8 @@ npm run db:migrate
 npm run test:db
 # Kiểm tra HTTP có đăng nhập (tạo và tự dọn tài khoản mẫu riêng):
 TEST_BASE_URL=https://mhqmanagement.vercel.app npm run test:live
+# Kiểm tra khôi phục phiên sau 8 ngày không hoạt động (giả lập, tài khoản riêng):
+TEST_BASE_URL=https://mhqmanagement.vercel.app npm run test:session
 ```
 
 `db:migrate` và `test:db` dùng `DATABASE_HOST`, `DATABASE_USER`, `SUPERBASE_DATABASE_PASSWORD` (giữ tên biến của workspace ban đầu). Kết nối SSL xác minh chứng chỉ gốc chính thức trong `supabase/prod-ca-2021.crt`. Mật khẩu DB chỉ ở máy cá nhân và không đưa lên Vercel/Git. Các fixture database kiểm thử nằm trong transaction luôn rollback.

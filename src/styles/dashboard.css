@@ -13,7 +13,7 @@
   align-items: center;
   gap: 8px;
   position: relative;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 550;
 }
 .month-picker input {
@@ -61,11 +61,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 14px;
   color: #d8e6d7;
 }
 .as-of {
-  font-size: 8px;
+  font-size: 12px;
   color: #b7d0bf;
   border: 1px solid #ffffff25;
   border-radius: 6px;
@@ -80,8 +80,8 @@
   overflow-wrap: anywhere;
 }
 .debt-card > p {
-  font-size: 9px;
-  color: #94b8a3;
+  font-size: 12px;
+  color: #c3dbce;
 }
 .debt-split {
   display: grid;
@@ -98,14 +98,15 @@
 }
 .debt-split span {
   display: block;
-  font-size: 9px;
-  color: #adc5b4;
+  font-size: 12px;
+  color: #c3dbce;
   margin-bottom: 6px;
 }
 .debt-split strong {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
 }
 .stat-grid {
   display: grid;
@@ -121,9 +122,9 @@
   min-width: 0;
 }
 .stat-card > span {
-  font-size: 9px;
+  font-size: 12px;
   display: block;
-  color: #879183;
+  color: var(--muted);
   margin-top: 13px;
 }
 .stat-card > strong {
@@ -135,13 +136,13 @@
   overflow-wrap: anywhere;
 }
 .stat-card > small {
-  font-size: 8px;
-  color: #a0a89a;
+  font-size: 12px;
+  color: var(--muted);
   display: block;
   margin-top: 6px;
 }
 .count {
-  font-size: 9px;
+  font-size: 12px;
   min-width: 21px;
   height: 21px;
   display: inline-flex;
@@ -155,8 +156,8 @@
   margin-top: 29px;
 }
 .section-description {
-  font-size: 9px;
-  color: #94a08f;
+  font-size: 12px;
+  color: var(--muted);
   line-height: 1.6;
   margin-top: 7px;
 }
@@ -176,11 +177,11 @@
 }
 .all-done strong {
   display: block;
-  font-size: 11px;
+  font-size: 14px;
 }
 .all-done span {
   display: block;
-  font-size: 9px;
+  font-size: 12px;
   margin-top: 5px;
   line-height: 1.6;
 }
@@ -192,7 +193,7 @@
   margin-top: 26px;
 }
 .chart-card h2 {
-  font-size: 13px;
+  font-size: 16px;
 }
 .chart-total {
   font-size: 16px;
@@ -201,15 +202,15 @@
   margin-top: 8px;
 }
 .chart-total span {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 400;
-  color: #9ba391;
+  color: var(--muted);
 }
 .chart-card select {
   background: #f7f8f2;
   border: 1px solid #e7ebdf;
   border-radius: 8px;
-  font-size: 10px;
+  font-size: 13px;
   padding: 7px;
   color: #6d7d65;
 }
@@ -217,8 +218,8 @@
   display: flex;
   justify-content: flex-end;
   gap: 13px;
-  font-size: 8px;
-  color: #9aa590;
+  font-size: 12px;
+  color: var(--muted);
   margin: 22px 0 16px;
 }
 .chart-legend span {
@@ -246,15 +247,18 @@
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 25px;
-  font-size: 7px;
-  color: #aab2a2;
-  width: 25px;
+  font-size: 12px;
+  color: var(--muted);
+  width: 36px;
+  flex-shrink: 0;
 }
 .bars {
   display: flex;
   justify-content: space-between;
   gap: 4px;
   flex: 1;
+  overflow-x: auto;
+  padding-bottom: 4px;
   background: repeating-linear-gradient(
     to top,
     transparent 0,
@@ -272,10 +276,10 @@
   gap: 10px;
   align-items: center;
   padding: 0;
-  flex: 1;
-  min-width: 0;
-  font-size: 8px;
-  color: #98a58b;
+  flex: 0 0 44px;
+  min-width: 44px;
+  font-size: 12px;
+  color: var(--muted);
 }
 .bar-group > span:last-child {
   height: 15px;
@@ -289,7 +293,7 @@
   width: 100%;
 }
 .bar-pair > i {
-  width: 6px;
+  width: 12px;
   background: #598467;
   border-radius: 3px 3px 0 0;
   min-height: 2px;
@@ -308,8 +312,8 @@
   opacity: 0.35;
 }
 .chart-footnote {
-  font-size: 7px;
-  color: #acb49f;
+  font-size: 12px;
+  color: var(--muted);
   margin-top: 12px;
   text-align: center;
 }
@@ -330,15 +334,52 @@
   flex: 1;
 }
 .quick-link strong {
-  font-size: 10px;
+  font-size: 13px;
 }
 .quick-link span {
-  font-size: 8px;
-  color: #96a08d;
+  font-size: 12px;
+  color: var(--muted);
 }
 .quick-link > svg {
-  color: #91a182;
+  color: #c3dbce;
 }
 .debt-split span {
-  font-size: 10px;
+  font-size: 13px;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.chart-selection {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.debt-card h2,
+.stat-card > strong,
+.chart-total {
+  font-variant-numeric: tabular-nums;
+}
+.pending-section .section-title > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+.chart-card select {
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.quick-actions > * {
+  padding-inline: 12px;
+  font-size: 14px;
+  white-space: nowrap;
 }

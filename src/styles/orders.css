@@ -10,15 +10,15 @@
   padding: 16px;
 }
 .order-card .section-title > strong {
-  font-size: 11px;
+  font-size: 15px;
   display: flex;
   gap: 6px;
   align-items: center;
 }
-.order-card > p {
+.order-card-link > p {
   margin: 16px 0;
-  color: #87967b;
-  font-size: 10px;
+  color: var(--muted);
+  font-size: 13px;
   line-height: 1.8;
 }
 .order-bottom {
@@ -28,11 +28,11 @@
   justify-content: space-between;
   padding-top: 15px;
   margin-top: 16px;
-  font-size: 10px;
-  color: #92a083;
+  font-size: 13px;
+  color: var(--muted);
 }
 .order-bottom > strong {
-  font-size: 13px;
+  font-size: 14px;
   color: #6f7854;
   display: flex;
   align-items: center;
@@ -52,22 +52,22 @@
   min-width: 0;
 }
 .line-item strong {
-  font-size: 10px;
+  font-size: 13px;
 }
 .line-item > strong {
-  font-size: 11px;
-  white-space: nowrap;
+  font-size: 14px;
+  overflow-wrap: anywhere;
 }
 .line-item span:not(.product-icon) {
-  font-size: 9px;
-  color: #98a38d;
+  font-size: 12px;
+  color: var(--muted);
 }
 .total-line {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  font-size: 11px;
+  font-size: 14px;
   border-top: 1px solid var(--border);
   padding-top: 17px;
   margin-top: 20px;
@@ -80,8 +80,8 @@
   background: #f6f7f0;
   border-radius: 8px;
   padding: 12px;
-  font-size: 10px;
-  color: #8c977f;
+  font-size: 13px;
+  color: var(--muted);
   margin-top: 15px;
   white-space: pre-wrap;
   line-height: 1.8;
@@ -100,25 +100,25 @@
   margin-top: 2px;
 }
 .interest-policy strong {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 550;
 }
 .interest-policy p {
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.9;
   margin: 7px 0;
 }
 .interest-policy small {
-  font-size: 8px;
-  color: #a1ad92;
+  font-size: 12px;
+  color: var(--muted);
 }
 .ledger-title {
   margin-top: 28px;
   margin-bottom: 17px;
 }
 .ledger-title > span {
-  font-size: 9px;
-  color: #9ca88c;
+  font-size: 12px;
+  color: var(--muted);
 }
 .ledger {
   background: white;
@@ -153,20 +153,34 @@
   min-width: 0;
 }
 .ledger-row strong {
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 .ledger-row time,
 .ledger-row small {
-  font-size: 8px;
-  color: #a4af96;
+  font-size: 12px;
+  color: var(--muted);
 }
 .ledger-row > strong {
-  font-size: 11px;
-  white-space: nowrap;
+  font-size: 14px;
+  overflow-wrap: anywhere;
   margin-top: 3px;
 }
 .interest-text {
   color: #b18d56;
+}
+
+.order-card-link {
+  display: block;
+}
+.order-pay {
+  margin-top: 16px;
+}
+.order-balance + .primary {
+  margin-bottom: 12px;
+}
+.order-bottom > strong {
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
 }

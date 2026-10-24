@@ -77,6 +77,14 @@ export function Dashboard() {
           <ChevronRight size={18} />
         </button>
       </div>
+      <div className="quick-actions">
+        <Link to="/customers?filter=debt" className="primary">
+          <Wallet size={19} /> Thu tiền
+        </Link>
+        <button className="secondary" onClick={() => open({ type: 'customer' })}>
+          <Plus size={19} /> Thêm khách
+        </button>
+      </div>
       <section className="debt-card">
         <div className="card-orbit" />
         <div className="debt-top">
@@ -119,7 +127,7 @@ export function Dashboard() {
       <section className="pending-section">
         <div className="section-title">
           <h2>
-            Chưa trả góp tháng này <span className="count">{pending.length}</span>
+            Chưa thu T{Number(month.slice(5))} <span className="count">{pending.length}</span>
           </h2>
           <Link to={'/customers?pending=' + month} aria-label="Xem khách chưa trả góp">
             <ArrowUpRight size={20} />
@@ -141,7 +149,7 @@ export function Dashboard() {
               </strong>
               <span>
                 {data.orders.length
-                  ? 'Các khoản thu tháng này đã được ghi nhận.'
+                  ? 'Không còn đơn từ tháng trước cần nhắc thu trong tháng đã chọn.'
                   : 'Thêm khách hàng để bắt đầu ghi sổ.'}
               </span>
             </div>

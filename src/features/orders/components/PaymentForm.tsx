@@ -75,6 +75,48 @@ export function PaymentForm({
           Gốc {money(b.principal)} · Lãi {money(b.interest)}
         </small>
       </div>
+      <div className="payment-amount">
+        <Field label="Số tiền đã nhận">
+          <MoneyInput value={amount} onChange={setAmount} required placeholder="Nhập số tiền" />
+        </Field>
+      </div>
+      <div className="amount-shortcuts" aria-label="Chọn nhanh số tiền">
+        {[500000, 1000000]
+          .filter((value) => value < b.total)
+          .map((value) => (
+            <button
+              className="amount-shortcut"
+              type="button"
+              key={value}
+              onClick={() => setAmount(String(value))}
+            >
+              {money(value)}
+            </button>
+          ))}
+        <button
+          className="amount-shortcut"
+          type="button"
+          onClick={() => setAmount(String(b.total))}
+        >
+          Toàn bộ
+        </button>
+      </div>
+      {Number(amount) > 0 && Number(amount) <= b.total && (
+        <div className="allocation">
+          <div>
+            <span>Thanh toán lãi</span>
+            <strong>{money(Math.min(b.interest, Number(amount)))}</strong>
+          </div>
+          <div>
+            <span>Thanh toán gốc</span>
+            <strong>{money(Math.max(0, Number(amount) - b.interest))}</strong>
+          </div>
+          <div>
+            <span>Còn nợ sau khi thu</span>
+            <strong>{money(b.total - Number(amount))}</strong>
+          </div>
+        </div>
+      )}
       <Field
         label="Ngày nhận tiền"
         hint={
@@ -96,28 +138,6 @@ export function PaymentForm({
           disabled={payment?.kind === 'down_payment'}
         />
       </Field>
-      <Field label="Số tiền đã nhận">
-        <MoneyInput value={amount} onChange={setAmount} required autoFocus placeholder="0" />
-      </Field>
-      <button className="amount-shortcut" type="button" onClick={() => setAmount(String(b.total))}>
-        Thu tất cả {money(b.total)}
-      </button>
-      {Number(amount) > 0 && Number(amount) <= b.total && (
-        <div className="allocation">
-          <div>
-            <span>Thanh toán lãi</span>
-            <strong>{money(Math.min(b.interest, Number(amount)))}</strong>
-          </div>
-          <div>
-            <span>Thanh toán gốc</span>
-            <strong>{money(Math.max(0, Number(amount) - b.interest))}</strong>
-          </div>
-          <div>
-            <span>Còn nợ sau khi thu</span>
-            <strong>{money(b.total - Number(amount))}</strong>
-          </div>
-        </div>
-      )}
       <Field label="Ghi chú (không bắt buộc)">
         <input
           placeholder="Tiền mặt, chuyển khoản…"

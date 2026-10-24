@@ -1,80 +1,45 @@
 @media (min-width: 600px) {
   body {
-    background:
-      radial-gradient(ellipse at 18% 30%, #dce4d8, transparent 50%),
-      radial-gradient(ellipse at 90% 80%, #e1e5d4, transparent 60%), #edf0e9;
+    background: #e7ede9;
   }
   .app-shell {
-    border-left: 1px solid #dde4d5;
-    border-right: 1px solid #dde4d5;
+    border-inline: 1px solid var(--border);
   }
   .sheet {
-    max-height: 89dvh;
-  }
-  .login-page {
-    padding: 45px 36px;
-  }
-  .login-art {
-    height: 205px;
+    max-height: 92dvh;
   }
 }
 @media (max-width: 370px) {
   main {
-    padding: 21px 17px 108px;
+    padding-inline: 16px;
   }
   .app-header {
-    padding-left: 17px;
-    padding-right: 17px;
+    padding-inline: 16px;
+  }
+  .debt-card {
+    padding: 20px 16px;
   }
   .debt-card h2 {
-    font-size: 28px;
-  }
-  .debt-split strong {
-    font-size: 12px;
+    font-size: 30px;
   }
   .stat-card {
     padding: 14px 12px;
   }
   .stat-card > strong {
-    font-size: 15px;
-  }
-  .section-title h2 {
-    font-size: 13px;
-  }
-  .row-main > strong {
-    font-size: 10px;
-  }
-  .row-end strong {
-    font-size: 10px;
+    font-size: 17px;
   }
   .customer-row {
-    gap: 7px;
-    padding: 14px 11px;
+    padding-inline: 12px;
   }
   .row-chevron {
     display: none;
   }
-  .avatar {
-    width: 34px;
-    height: 34px;
-    font-size: 9px;
-  }
+  .sheet-header,
   .sheet-body {
-    padding-left: 19px;
-    padding-right: 19px;
-  }
-  .sheet-header {
-    padding-left: 19px;
-    padding-right: 19px;
+    padding-inline: 16px;
   }
   .login-page {
-    padding: 29px 25px;
-  }
-  .phone-link {
-    font-size: 11px;
-  }
-  .line-item > strong {
-    font-size: 10px;
+    padding-inline: 22px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -83,8 +48,13 @@
     transition: none !important;
   }
 }
+input,
+textarea,
+select,
 .field input,
 .field textarea,
-.search-field input {
+.search-field input,
+.quantity-control input,
+.item-price input {
   font-size: 16px;
 }

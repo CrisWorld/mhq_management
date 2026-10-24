@@ -33,13 +33,6 @@ export function OrderDetail() {
           {b.total > 0 ? 'Còn nợ' : 'Đã tất toán'}
         </Badge>
       </div>
-      <button
-        className="secondary full"
-        onClick={() => open({ type: 'order', customer: c, order: o })}
-      >
-        <Pencil size={17} />
-        Sửa đơn hàng
-      </button>
       <div className="balance-summary order-balance">
         <span>Cần thanh toán</span>
         <h2>{money(b.total)}</h2>
@@ -60,9 +53,16 @@ export function OrderDetail() {
       {b.total > 0 && (
         <button className="primary full" onClick={() => open({ type: 'payment', order: o })}>
           <CreditCard size={19} />
-          Ghi nhận trả góp
+          Thu tiền trả góp
         </button>
       )}
+      <button
+        className="secondary full"
+        onClick={() => open({ type: 'order', customer: c, order: o })}
+      >
+        <Pencil size={17} />
+        Sửa đơn hàng
+      </button>
       <section className="content-card">
         <div className="section-title">
           <h2>Sản phẩm trong đơn</h2>

@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   gap: 9px;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 550;
   color: #617553;
 }
@@ -17,10 +17,10 @@
   background: #fff;
   min-width: 0;
   width: 100%;
-  font-size: 13px;
+  font-size: 16px;
   color: #314d38;
   font-weight: 400;
-  min-height: 46px;
+  min-height: 50px;
   appearance: none;
 }
 .field textarea {
@@ -30,12 +30,12 @@
 }
 .field input::placeholder,
 .field textarea::placeholder {
-  color: #aeb8a1;
-  font-size: 11px;
+  color: var(--muted);
+  font-size: 14px;
 }
 .field-hint {
-  font-size: 9px;
-  color: #a1ac92;
+  font-size: 12px;
+  color: var(--muted);
   line-height: 1.8;
   margin-top: 7px;
 }
@@ -50,8 +50,8 @@
   position: absolute;
   right: 14px;
   top: 15px;
-  color: #9daa8d;
-  font-size: 12px;
+  color: var(--muted);
+  font-size: 14px;
   font-weight: 400;
 }
 .toggle-row {
@@ -69,13 +69,13 @@
   gap: 7px;
 }
 .toggle-row strong {
-  font-size: 11px;
+  font-size: 14px;
   color: #5c7550;
   font-weight: 550;
 }
 .toggle-row small {
-  font-size: 9px;
-  color: #a0ad90;
+  font-size: 12px;
+  color: var(--muted);
   line-height: 1.8;
 }
 .toggle-row input {
@@ -131,7 +131,7 @@
 .sheet {
   width: 100%;
   max-width: 480px;
-  max-height: 93dvh;
+  max-height: 94dvh;
   background: #fafbf6;
   border-radius: 23px 23px 0 0;
   display: flex;
@@ -151,7 +151,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 19px 24px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--border);
 }
 .sheet-header h2 {
@@ -160,7 +160,8 @@
   margin-top: 6px;
 }
 .sheet-body {
-  padding: 23px 24px max(27px, env(safe-area-inset-bottom));
+  padding: 20px 20px 0;
+  scroll-padding-bottom: 100px;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
@@ -175,28 +176,28 @@
   border-radius: 12px;
 }
 .form-customer strong {
-  font-size: 12px;
+  font-size: 14px;
 }
 .form-customer small {
   display: block;
-  font-size: 9px;
-  color: #91a17f;
+  font-size: 12px;
+  color: var(--muted);
   margin-top: 5px;
 }
 .payment-order {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 11px;
-  color: #8a9b79;
+  font-size: 14px;
+  color: var(--muted);
   margin-bottom: 17px;
 }
 .payment-order strong {
   color: #476441;
-  font-size: 10px;
+  font-size: 13px;
 }
 .payment-due {
-  padding: 21px;
+  padding: 16px;
   background: #eaf1e0;
   border: 1px solid #dce7cf;
   border-radius: 13px;
@@ -204,11 +205,11 @@
   align-items: center;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 .payment-due span {
-  font-size: 10px;
-  color: #8a9c76;
+  font-size: 13px;
+  color: var(--muted);
 }
 .payment-due strong {
   font-size: 27px;
@@ -216,17 +217,18 @@
   color: #40603b;
 }
 .payment-due small {
-  font-size: 9px;
-  color: #8d9e79;
+  font-size: 12px;
+  color: var(--muted);
 }
 .amount-shortcut {
-  font-size: 10px;
+  font-size: 13px;
   color: #4f7c43;
   background: #edf3e6;
   border-radius: 7px;
   padding: 8px 10px;
-  margin-top: -9px;
-  margin-bottom: 18px;
+  min-height: 44px;
+  margin: 0;
+  border: 1px solid #d4e2d9;
 }
 .allocation {
   background: #f3f6ed;
@@ -238,9 +240,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: 13px;
   margin-bottom: 13px;
-  color: #96a583;
+  color: var(--muted);
 }
 .allocation > div:last-child {
   margin: 0;
@@ -248,14 +250,14 @@
   padding-top: 12px;
 }
 .allocation strong {
-  font-size: 11px;
+  font-size: 14px;
   color: #5d7b4d;
 }
 .order-picker {
   margin-bottom: 22px;
 }
 .order-picker h3 {
-  font-size: 12px;
+  font-size: 14px;
 }
 .order-picker .section-title {
   margin-bottom: 10px;
@@ -290,18 +292,18 @@
   flex: 1;
 }
 .picker-list strong {
-  font-size: 10px;
+  font-size: 13px;
 }
 .picker-list small {
-  font-size: 9px;
-  color: #97a585;
+  font-size: 12px;
+  color: var(--muted);
 }
 .picker-list > button > svg {
-  color: #85a16f;
+  color: var(--muted);
 }
 .picker-empty {
-  font-size: 10px;
-  color: #9baa88;
+  font-size: 13px;
+  color: var(--muted);
   line-height: 1.9;
   text-align: center;
   padding: 20px;
@@ -314,7 +316,7 @@
 }
 .quick-product .primary {
   min-height: 39px;
-  font-size: 11px;
+  font-size: 14px;
 }
 .selected-items {
   background: #fff;
@@ -342,23 +344,25 @@
   flex: 1;
 }
 .selected-item strong {
-  font-size: 11px;
+  font-size: 14px;
 }
 .selected-item small {
-  font-size: 10px;
-  color: #95a482;
+  font-size: 13px;
+  color: var(--muted);
 }
 .quantity-control {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0;
   border: 1px solid #e4ebdc;
   border-radius: 7px;
   background: #fafbf6;
 }
 .quantity-control button {
+  min-width: 40px;
+  min-height: 44px;
   padding: 7px;
-  color: #87a172;
+  color: var(--muted);
 }
 .quantity-control input {
   width: 31px;
@@ -366,7 +370,7 @@
   border: 0;
   background: none;
   text-align: center;
-  font-size: 11px;
+  font-size: 14px;
   height: 30px;
   padding: 0;
 }
@@ -385,14 +389,57 @@
   padding: 13px;
   background: #eef3e7;
   border-radius: 9px;
-  font-size: 10px;
-  color: #8c9f78;
+  font-size: 13px;
+  color: var(--muted);
   margin-top: -5px;
 }
 .remaining-line strong {
-  font-size: 13px;
+  font-size: 14px;
   color: #547447;
 }
 .field label {
-  font-size: 12px;
+  font-size: 14px;
+}
+
+.form-footer {
+  padding-top: 8px;
+}
+.sheet-body .form-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background: #fafbf6;
+  border-top: 1px solid var(--border);
+  padding: 14px 0 max(18px, env(safe-area-inset-bottom));
+}
+.sheet-body > form {
+  isolation: isolate;
+}
+.payment-amount .money-input input {
+  font-size: 28px;
+  font-weight: 650;
+  min-height: 64px;
+  letter-spacing: -0.5px;
+}
+.payment-amount .money-input > span {
+  top: 22px;
+}
+.amount-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -6px 0 20px;
+}
+.payment-due strong {
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.payment-due small {
+  text-align: center;
+}
+.allocation > div {
+  gap: 12px;
+}
+.allocation strong {
+  text-align: right;
 }

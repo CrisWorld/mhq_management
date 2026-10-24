@@ -2,8 +2,8 @@ project_id = "mhq-management"
 [db]
 major_version = 17
 [auth]
-site_url = "https://mhqmanagement.vercel.app"
-additional_redirect_urls = ["http://localhost:5173"]
+site_url = "https://mhq.toeic-handbook.site"
+additional_redirect_urls = ["https://mhqmanagement.vercel.app", "http://localhost:5173"]
 
 # Application access is provisioned by the store owner; public signups are disabled.
 enable_signup = false

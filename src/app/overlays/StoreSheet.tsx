@@ -40,12 +40,7 @@ export function StoreSheet() {
   useSheetFocus(!!sheet, closeSheet);
   if (!sheet) return null;
   return (
-    <div
-      className="sheet-backdrop"
-      onClick={(event) => {
-        if (event.target === event.currentTarget) closeSheet();
-      }}
-    >
+    <div className="sheet-backdrop">
       <section className="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
         <div className="sheet-handle" />
         <div className="sheet-header">

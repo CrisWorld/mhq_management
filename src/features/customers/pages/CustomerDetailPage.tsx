@@ -3,18 +3,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../../app/providers/StoreProvider';
 import { useState } from 'react';
 import { Empty } from '../../../shared/ui/Empty';
-import { customerDebt } from '../../../../shared/finance';
+import { balanceAt, customerDebt } from '../../../../shared/finance';
 import { Back } from '../../../shared/ui/Back';
 import {
-  MoreHorizontal,
+  Pencil,
   Phone,
   ArrowUpRight,
   MapPin,
   Plus,
   ShoppingBag,
   FileText,
+  CreditCard,
 } from 'lucide-react';
-import { initials, money } from '../../../lib/format';
+import { money } from '../../../lib/format';
 import { Badge } from '../../../shared/ui/Badge';
 import { OrderRow } from '../../orders/components/OrderRow';
 import { NoteCard } from '../components/NoteCard';
@@ -45,18 +46,18 @@ export function CustomerDetail() {
   const notes = data.notes
     .filter((n) => n.customer_id === c.id)
     .sort((a, b) => b.created_at.localeCompare(a.created_at));
+  const unpaidOrders = orders.filter((order) => balanceAt(order).total > 0);
   return (
     <>
       <Back to="/customers" label="Khách hàng" />
       <div className="customer-profile">
         <button
-          className="icon-button edit-customer"
+          className="text-button edit-customer"
           aria-label="Sửa khách hàng"
           onClick={() => open({ type: 'customer', customer: c })}
         >
-          <MoreHorizontal />
+          <Pencil size={16} /> Sửa
         </button>
-        <span className={'avatar large color-' + (c.name.length % 4)}>{initials(c.name)}</span>
         <h1>{c.name}</h1>
         {c.phone ? (
           <a className="phone-link" href={'tel:' + c.phone.replace(/[^+\d]/g, '')}>
@@ -93,15 +94,35 @@ export function CustomerDetail() {
           <strong>{money(debt.interest)}</strong>
         </div>
       </div>
-      <button className="primary full" onClick={() => open({ type: 'order', customer: c })}>
-        <Plus size={19} />
-        Tạo đơn hàng mới
-      </button>
+      <div className="customer-actions">
+        {unpaidOrders.length === 1 && (
+          <button
+            className="primary"
+            onClick={() => open({ type: 'payment', order: unpaidOrders[0] })}
+          >
+            <CreditCard size={19} /> Thu tiền
+          </button>
+        )}
+        <button
+          className={unpaidOrders.length === 1 ? 'secondary' : 'primary full'}
+          onClick={() => open({ type: 'order', customer: c })}
+        >
+          <Plus size={19} /> Tạo đơn mới
+        </button>
+      </div>
       <div className="detail-tabs">
-        <button className={tab === 'orders' ? 'selected' : ''} onClick={() => setTab('orders')}>
+        <button
+          aria-pressed={tab === 'orders'}
+          className={tab === 'orders' ? 'selected' : ''}
+          onClick={() => setTab('orders')}
+        >
           Đơn hàng <span>{orders.length}</span>
         </button>
-        <button className={tab === 'notes' ? 'selected' : ''} onClick={() => setTab('notes')}>
+        <button
+          aria-pressed={tab === 'notes'}
+          className={tab === 'notes' ? 'selected' : ''}
+          onClick={() => setTab('notes')}
+        >
           Ghi chú <span>{notes.length}</span>
         </button>
       </div>

@@ -26,7 +26,7 @@ export function Products() {
           aria-label="Thêm sản phẩm"
           onClick={() => open({ type: 'product' })}
         >
-          <Plus size={23} />
+          <Plus size={20} /> Thêm
         </button>
       </div>
       <div className="search-field">

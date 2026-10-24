@@ -1,6 +1,8 @@
 # MHQ · Sổ cửa hàng nội thất
 
-**Bản triển khai:** https://mhqmanagement.vercel.app
+**Bản triển khai:** https://mhq.toeic-handbook.site
+
+Supabase Auth dùng `https://mhq.toeic-handbook.site` làm Site URL. Phiên đăng nhập lưu riêng theo domain: khi chuyển từ URL Vercel cũ, đăng nhập một lần trên domain mới; cơ chế giữ phiên và tự làm mới token tiếp tục hoạt động.
 
 Ứng dụng React dành cho điện thoại, API NestJS và Supabase (PostgreSQL + Auth). Frontend và API chạy cùng một dự án Vercel, không cần thuê máy chủ riêng.
 
@@ -98,9 +100,9 @@ npm test
 npm run db:migrate
 npm run test:db
 # Kiểm tra HTTP có đăng nhập (tạo và tự dọn tài khoản mẫu riêng):
-TEST_BASE_URL=https://mhqmanagement.vercel.app npm run test:live
+TEST_BASE_URL=https://mhq.toeic-handbook.site npm run test:live
 # Kiểm tra khôi phục phiên sau 8 ngày không hoạt động (giả lập, tài khoản riêng):
-TEST_BASE_URL=https://mhqmanagement.vercel.app npm run test:session
+TEST_BASE_URL=https://mhq.toeic-handbook.site npm run test:session
 ```
 
 `db:migrate` và `test:db` dùng `DATABASE_HOST`, `DATABASE_USER`, `SUPERBASE_DATABASE_PASSWORD` (giữ tên biến của workspace ban đầu). Kết nối SSL xác minh chứng chỉ gốc chính thức trong `supabase/prod-ca-2021.crt`. Mật khẩu DB chỉ ở máy cá nhân và không đưa lên Vercel/Git. Các fixture database kiểm thử nằm trong transaction luôn rollback.

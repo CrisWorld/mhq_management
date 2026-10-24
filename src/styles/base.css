@@ -9,11 +9,12 @@
   background: #e9ece6;
   font-synthesis: none;
   font-weight: 400;
-  font-size: 13px;
+  line-height: 1.5;
+  font-size: 15px;
   --green: #184e3e;
-  --muted: #819087;
-  --border: #e8ece5;
-  --bg: #f7f8f4;
+  --muted: #596b61;
+  --border: #dce4df;
+  --bg: #f4f7f5;
   --amber: #b77c36;
   --mint: #e4f1e9;
 }
@@ -96,7 +97,7 @@ h2 {
   letter-spacing: -0.35px;
 }
 h3 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 650;
 }
 strong {

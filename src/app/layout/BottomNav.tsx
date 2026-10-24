@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { House, Package, Settings2, Users } from 'lucide-react';
 const items = [
   { to: '/', icon: House, label: 'Tổng quan' },
@@ -7,6 +7,7 @@ const items = [
   { to: '/settings', icon: Settings2, label: 'Cửa hàng' },
 ];
 export function BottomNav() {
+  const { pathname } = useLocation();
   return (
     <nav className="bottom-nav" aria-label="Điều hướng chính">
       {items.map((item) => (
@@ -14,7 +15,11 @@ export function BottomNav() {
           key={item.to}
           to={item.to}
           end={item.to === '/'}
-          className={({ isActive }) => (isActive ? 'active' : '')}
+          className={({ isActive }) =>
+            isActive || (item.to === '/customers' && pathname.startsWith('/orders/'))
+              ? 'active'
+              : ''
+          }
         >
           <span>
             <item.icon size={21} />

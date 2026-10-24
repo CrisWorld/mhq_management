@@ -10,7 +10,7 @@
   align-items: center;
   gap: 6px;
   min-height: 44px;
-  font-size: 11px;
+  font-size: 14px;
 }
 .record-actions > .delete-control {
   flex: 1;
@@ -30,7 +30,7 @@
   color: #fff;
   background: #a45143;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .delete-confirm {
   width: 100%;
@@ -40,12 +40,12 @@
   border-radius: 11px;
 }
 .delete-confirm > strong {
-  font-size: 13px;
+  font-size: 14px;
   color: #874535;
 }
 .delete-confirm > p {
   margin: 9px 0 13px;
-  font-size: 11px;
+  font-size: 14px;
   color: #916657;
   line-height: 1.8;
 }
@@ -69,8 +69,8 @@
 }
 .item-price {
   display: block;
-  font-size: 10px;
-  color: #839475;
+  font-size: 13px;
+  color: var(--muted);
   max-width: 155px;
 }
 .item-price .money-input {
@@ -82,7 +82,7 @@
   padding: 9px 25px 9px 8px;
   border: 1px solid var(--border);
   border-radius: 7px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .item-price .money-input > span {
   top: 12px;
@@ -93,7 +93,7 @@
   align-items: center;
   gap: 12px;
   margin: 22px 0;
-  font-size: 12px;
+  font-size: 14px;
   color: #617553;
 }
 .trash-filter select {
@@ -118,8 +118,8 @@
   overflow-wrap: anywhere;
 }
 .trash-card > small {
-  font-size: 10px;
-  color: #91a083;
+  font-size: 13px;
+  color: var(--muted);
 }
 .trash-card h3 {
   margin-top: 10px;
@@ -128,9 +128,9 @@
 }
 .trash-card p {
   margin: 8px 0;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.8;
-  color: #839475;
+  color: var(--muted);
 }
 .trash-card button {
   margin-top: 7px;

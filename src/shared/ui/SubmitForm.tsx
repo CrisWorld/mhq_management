@@ -8,11 +8,13 @@ export function SubmitForm({
   onSave,
   children,
   label = 'Lưu thông tin',
+  busyLabel = 'Đang lưu…',
   disabled = false,
 }: {
   onSave: () => Promise<void>;
   children: ReactNode;
   label?: string;
+  busyLabel?: string;
   disabled?: boolean;
 }) {
   const [busy, setBusy] = useState(false);
@@ -36,11 +38,13 @@ export function SubmitForm({
   return (
     <form onSubmit={submit}>
       <fieldset disabled={busy}>{children}</fieldset>
-      <ErrorBox message={error} />
-      <button className="primary full" disabled={busy || disabled} type="submit">
-        {busy ? <Loader2 className="spin" size={18} /> : <Check size={18} />}{' '}
-        {busy ? 'Đang lưu…' : label}
-      </button>
+      <div className="form-footer">
+        <ErrorBox message={error} />
+        <button className="primary full" disabled={busy || disabled} type="submit">
+          {busy ? <Loader2 className="spin" size={18} /> : <Check size={18} />}{' '}
+          {busy ? busyLabel : label}
+        </button>
+      </div>
     </form>
   );
 }
